@@ -31,6 +31,8 @@ build/libs/ultra-safe-all.jar
 ## Run
 ```bash
 java -jar build/libs/ultra-safe-all.jar
+# or
+mvn javafx:run
 ```
 
 ## Notes
