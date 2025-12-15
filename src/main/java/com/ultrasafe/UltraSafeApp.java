@@ -64,21 +64,21 @@ public class UltraSafeApp extends Application {
     }
 
     private TableView<EntryItem> setupTable(SafeService service, Stage stage) {
-        TableColumn<EntryItem, String> userCol = new TableColumn<>("👤 Username");
-        userCol.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getUsername()));
-        userCol.setPrefWidth(180);
-
         TableColumn<EntryItem, String> ctxCol = new TableColumn<>("📝 Context");
         ctxCol.setCellValueFactory(d -> new SimpleStringProperty(
                 d.getValue().getContext() == null ? "" : d.getValue().getContext()));
         ctxCol.setPrefWidth(260);
+
+        TableColumn<EntryItem, String> userCol = new TableColumn<>("👤 Username");
+        userCol.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getUsername()));
+        userCol.setPrefWidth(180);
 
         TableColumn<EntryItem, String> fileCol = new TableColumn<>("📎 File");
         fileCol.setCellValueFactory(d -> new SimpleStringProperty(
                 d.getValue().getFileName() == null ? "" : d.getValue().getFileName()));
         fileCol.setPrefWidth(260);
 
-        table.getColumns().setAll(userCol, ctxCol, fileCol);
+        table.getColumns().setAll(ctxCol, userCol, fileCol);
         table.setItems(entries);
 
         table.setRowFactory(tv -> {
