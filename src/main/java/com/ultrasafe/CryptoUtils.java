@@ -22,16 +22,16 @@ public class CryptoUtils {
     public static byte[] encrypt(char[] password, byte[] plaintext) throws Exception {
         byte[] salt = new byte[SALT_LEN];
         byte[] iv = new byte[IV_LEN];
-        SecureRandom rnd = new SecureRandom();
+        var rnd = new SecureRandom();
         rnd.nextBytes(salt);
         rnd.nextBytes(iv);
 
-        SecretKey key = deriveKey(password, salt, 32); // 256-bit
-        Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+        var key = deriveKey(password, salt, 32); // 256-bit
+        var cipher = Cipher.getInstance("AES/GCM/NoPadding");
         cipher.init(Cipher.ENCRYPT_MODE, key, new GCMParameterSpec(TAG_BITS, iv));
         byte[] cipherText = cipher.doFinal(plaintext);
 
-        ByteBuffer bb = ByteBuffer.allocate(MAGIC.length + 4 + SALT_LEN + IV_LEN + 4 + cipherText.length);
+        var bb = ByteBuffer.allocate(MAGIC.length + 4 + SALT_LEN + IV_LEN + 4 + cipherText.length);
         bb.put(MAGIC);
         bb.putInt(ITERATIONS);
         bb.put(salt);
