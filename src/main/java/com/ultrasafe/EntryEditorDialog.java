@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.security.SecureRandom;
 import java.util.Optional;
 
 public class EntryEditorDialog {
@@ -78,7 +79,25 @@ public class EntryEditorDialog {
                 pf.setManaged(false);
             }
         });
-        return new HBox(5, pf, tfVisible, eye);
+
+        Button suggest = new Button("🎲 Suggest");
+        suggest.setOnAction(ev -> {
+            String generated = generatePassword();
+            pf.setText(generated);
+            tfVisible.setText(generated);
+        });
+        return new HBox(5, pf, tfVisible, eye, suggest);
+    }
+
+    private static String generatePassword() {
+        String chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz0123456789!@#$%^&*()-_=+";
+        SecureRandom random = new SecureRandom();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 20; i++) {
+            int idx = random.nextInt(chars.length());
+            sb.append(chars.charAt(idx));
+        }
+        return sb.toString();
     }
 
     private static class PasswordBoxHelper {
